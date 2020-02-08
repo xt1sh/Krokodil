@@ -1,25 +1,30 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\kibaa\\Krokodil\\Krokodil.csproj": {}
+    "C:\\Users\\dimav\\Desktop\\vuejsproj\\Krokodil\\src\\server\\Krokodil.csproj": {}
   },
   "projects": {
-    "C:\\Users\\kibaa\\Krokodil\\Krokodil.csproj": {
+    "C:\\Users\\dimav\\Desktop\\vuejsproj\\Krokodil\\src\\server\\Krokodil.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\kibaa\\Krokodil\\Krokodil.csproj",
+        "projectUniqueName": "C:\\Users\\dimav\\Desktop\\vuejsproj\\Krokodil\\src\\server\\Krokodil.csproj",
         "projectName": "Krokodil",
-        "projectPath": "C:\\Users\\kibaa\\Krokodil\\Krokodil.csproj",
-        "packagesPath": "C:\\Users\\kibaa\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\kibaa\\Krokodil\\obj\\",
+        "projectPath": "C:\\Users\\dimav\\Desktop\\vuejsproj\\Krokodil\\src\\server\\Krokodil.csproj",
+        "packagesPath": "C:\\Users\\dimav\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\dimav\\Desktop\\vuejsproj\\Krokodil\\src\\server\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\kibaa\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\dimav\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
