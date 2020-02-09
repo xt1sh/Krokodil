@@ -28,6 +28,7 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    { src: '~plugins/messages-hub.js'}
   ],
   /*
   ** Nuxt.js dev-modules

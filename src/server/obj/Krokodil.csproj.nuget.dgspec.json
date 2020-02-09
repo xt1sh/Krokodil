@@ -1,23 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\dimav\\Desktop\\vuejsproj\\Krokodil\\src\\server\\Krokodil.csproj": {}
+    "C:\\Code\\Krokodil\\src\\server\\Krokodil.csproj": {}
   },
   "projects": {
-    "C:\\Users\\dimav\\Desktop\\vuejsproj\\Krokodil\\src\\server\\Krokodil.csproj": {
+    "C:\\Code\\Krokodil\\src\\server\\Krokodil.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\dimav\\Desktop\\vuejsproj\\Krokodil\\src\\server\\Krokodil.csproj",
+        "projectUniqueName": "C:\\Code\\Krokodil\\src\\server\\Krokodil.csproj",
         "projectName": "Krokodil",
-        "projectPath": "C:\\Users\\dimav\\Desktop\\vuejsproj\\Krokodil\\src\\server\\Krokodil.csproj",
-        "packagesPath": "C:\\Users\\dimav\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\dimav\\Desktop\\vuejsproj\\Krokodil\\src\\server\\obj\\",
+        "projectPath": "C:\\Code\\Krokodil\\src\\server\\Krokodil.csproj",
+        "packagesPath": "C:\\Users\\kibaa\\.nuget\\packages\\",
+        "outputPath": "C:\\Code\\Krokodil\\src\\server\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\dimav\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\kibaa\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -40,6 +37,20 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "dependencies": {
+            "Microsoft.AspNetCore.SignalR": {
+              "target": "Package",
+              "version": "[1.1.0, )"
+            },
+            "Microsoft.Extensions.Logging.Debug": {
+              "target": "Package",
+              "version": "[3.1.1, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[3.1.1, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
