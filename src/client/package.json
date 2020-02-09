@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@aspnet/signalr": "^1.1.4",
+    "@jaames/iro": "^5.0.0",
     "@nuxtjs/axios": "^5.3.6",
     "@nuxtjs/dotenv": "^1.4.0",
     "@nuxtjs/pwa": "^3.0.0-0",
