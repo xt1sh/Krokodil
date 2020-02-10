@@ -6,9 +6,12 @@ export default {
       .withUrl('http://localhost:5000/messages')
       .build()
 
-      connection.on('ReceiveMessage', function (user, message) {
-        console.log(user, message)
-      })
+    let messages = []
+
+      connection.on("SendMessage", function(message) {
+        messages.push(message)
+        
+      });
 
       let startedPromise = null
       let tries = 0
@@ -30,7 +33,8 @@ export default {
       connection.onclose(() => start())
 
       start()
-      setTimeout(() => connection.invoke("JoinRoom", 'qqq'), 2000)
-      setTimeout(() => connection.invoke('SendRoomMessage', 'qqq', 'www'), 5000)
+
+      Vue.prototype.$messageHub = connection
+      Vue.prototype.$messages = messages
   }
 }
