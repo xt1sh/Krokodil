@@ -9,19 +9,28 @@ export default {
       connection.on('ReceiveMessage', function (user, message) {
         console.log(user, message)
       })
- 
+
       let startedPromise = null
+      let tries = 0
       function start () {
         startedPromise = connection.start().catch(err => {
           console.error('Failed to connect with hub', err)
-          return new Promise((resolve, reject) => 
-            setTimeout(() => start().then(resolve).catch(reject), 5000))
+          if (tries < 5) {
+            return new Promise((resolve, reject) =>
+              setTimeout(() => {
+                start().then(resolve).catch(reject)
+                tries++
+                console.log('promise')
+              }, 5000))
+          }
         })
+        tries = 0
         return startedPromise
       }
       connection.onclose(() => start())
-       
+
       start()
-      setTimeout(() => connection.invoke('SendMessage', '4len', 'zhopa'), 5000)
+      setTimeout(() => connection.invoke("JoinRoom", 'qqq'), 2000)
+      setTimeout(() => connection.invoke('SendRoomMessage', 'qqq', 'www'), 5000)
   }
 }
