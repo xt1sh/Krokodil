@@ -1,70 +1,93 @@
 <template>
   <div class="drawing">
     <canvas id="canvas" width="650" height="650" @mouseleave="mouseLeave" @mouseup="mouseup" @mousemove="draw" @mousedown="onClick"></canvas>
-    <div id="color-picker-container"></div>
-
+    <div id="color-picker-container" @mousemove="colorChange" ></div>
+    <range-slider class="slider" min="1" max="25" step="1" v-model="sliderValue"></range-slider>
   </div>
 </template>
 
 <script>
 import iro from "@jaames/iro";
+import RangeSlider from 'vue-range-slider'
+import 'vue-range-slider/dist/vue-range-slider.css'
 
 export default {
   data: function() {
     return {
-      canvas: null,
-      ctx: null,
-      canvasx: 0,
-      canvasy: 0,
+      points: [],
       last_mousex: 0,
       last_mousey: 0,
       mousex: 0,
       mousey: 0,
       mousedown: false,
-      tooltype: "draw"
+      sliderValue: 5,
     };
   },
+  components: {
+    RangeSlider
+  },
   methods: {
-    use_tool: function(tool) {
-      this.tooltype = tool;
-    },
+
     draw: function(e) {
-      this.mousex = parseInt(e.clientX - this.canvasx);
-      this.mousey = parseInt(e.clientY - this.canvasy);
+      this.slider.style.backgroundColor = this.colorPicker.color.hexString
       if (this.mousedown) {
-        this.ctx.beginPath();
-        this.ctx.globalCompositeOperation = "source-over";
+        this.mousex = parseInt(e.clientX - this.canvasx);
+        this.mousey = parseInt(e.clientY - this.canvasy);
+        this.points.push({ x: this.mousex, y: this.mousey });
+
+        var p1 = this.points[0];
+        var p2 = this.points[1];
         this.ctx.strokeStyle = this.colorPicker.color.hexString;
-        this.ctx.lineWidth = 3;
-        this.ctx.moveTo(this.last_mousex, this.last_mousey);
-        this.ctx.lineTo(this.mousex, this.mousey);
-        this.ctx.lineJoin = this.ctx.lineCap = "round";
+        this.ctx.lineWidth = this.sliderValue;
+        this.ctx.beginPath();
+        this.ctx.moveTo(p1.x, p1.y);
+        for (var i = 1, len = this.points.length; i < len; i++) {
+
+          var midPoint = this.midPointBtw(p1, p2);
+          this.ctx.quadraticCurveTo(p1.x, p1.y, midPoint.x, midPoint.y );
+          p1 = this.points[i];
+          p2 = this.points[i+1];
+        }
+
         this.ctx.stroke();
-        this.ctx.closePath();
       }
-      this.last_mousex = this.mousex;
-      this.last_mousey = this.mousey;
+
     },
     onClick: function(e) {
       this.canvasx = canvas.offsetLeft;
       this.canvasy = canvas.offsetTop;
-      this.last_mousex = this.mousex = parseInt(e.clientX - this.canvasx);
-      this.last_mousey = this.mousey = parseInt(e.clientY - this.canvasy);
+      this.mousex = parseInt(e.clientX - this.canvasx);
+      this.mousey = parseInt(e.clientY - this.canvasy);
+      this.points.push({ x: this.mousex, y: this.mousey });
       this.ctx.beginPath();
-      this.ctx.arc(this.mousex, this.mousey, 1, 0, 2 * Math.PI, true);
+      this.ctx.fillStyle = this.colorPicker.color.hexString;
+      this.ctx.arc(this.mousex, this.mousey, this.sliderValue/2, 0, 2 * Math.PI, true);
       this.ctx.fill();
       this.mousedown = true;
     },
     mouseup: function(e) {
       this.mousedown = false;
+      this.points = [];
     },
     mouseLeave: function(e) {
       this.mousedown = false;
+      this.points = [];
+    },
+    colorChange: function(e) {
+      this.slider.style.backgroundColor = this.colorPicker.color.hexString
+    },
+    midPointBtw: function(p1, p2) {
+      return {
+        x: p1.x + (p2.x - p1.x) / 2,
+        y: p1.y + (p2.y - p1.y) / 2
+      };
     }
   },
   mounted: function() {
     this.canvas = document.getElementById("canvas");
     this.ctx = canvas.getContext("2d");
+    this.ctx.globalCompositeOperation = "source-over";
+    this.ctx.lineJoin = this.ctx.lineCap = "round";
     this.canvasx = canvas.offsetLeft;
     this.canvasy = canvas.offsetTop;
     this.colorPicker = new iro.ColorPicker("#color-picker-container", {
@@ -73,7 +96,9 @@ export default {
       // Set the initial color to pure red
       color: "#f00"
     });
-  }
+    this.slider = document.getElementsByClassName('range-slider-fill')[0]
+    this.slider.style.backgroundColor = "#f00"
+  },
 };
 </script>
 
@@ -91,4 +116,16 @@ canvas {
   bottom: 150px;
   margin-left: 10px;
 }
+
+.slider {
+  position: relative;
+  width: 200px;
+  bottom: 70px;
+  float: right;
+}
+
+.range-slider-knob {
+  background-color:rgb(105, 105, 105);
+}
+
 </style>

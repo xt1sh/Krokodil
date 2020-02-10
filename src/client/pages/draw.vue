@@ -29,4 +29,9 @@ export default {
 .game-container {
     width: 900px;
 }
+
+.drawing {
+  width: 650px;
+  height: 650px;
+}
 </style>
