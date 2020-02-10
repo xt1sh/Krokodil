@@ -343,3 +343,5 @@ wwwroot/
 
 bin/
 obj/
+
+.vs/

@@ -25,15 +25,20 @@
         </a>
       </div>
     </div>
+    <div>
+      <chat />
+    </div>
   </div>
 </template>
 
 <script>
 import Logo from '~/components/Logo.vue'
+import Chat from '~/components/Chat.vue'
 
 export default {
   components: {
-    Logo
+    Logo,
+    Chat
   }
 }
 </script>
