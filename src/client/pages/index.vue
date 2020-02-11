@@ -11,9 +11,17 @@
 </template>
 
 <script>
+import Logo from '~/components/Logo.vue'
+import Chat from '~/components/Chat.vue'
+import axios from 'axios'
 import Guid from 'guid';
 
 export default {
+  components: {
+    Logo,
+    Chat
+  },
+
   data: function() {
     return {
       username: ''
@@ -21,6 +29,12 @@ export default {
   },
 
   methods: {
+    onRandomClick() {
+      this.$axios.get(`http://localhost:5000/GetRandomRoom?userId=zalup`)
+        .then(response => {
+          console.log(response)
+        })
+    },
     onClick: function(e) {
       document.cookie = 'id=' + Guid.raw();
       document.cookie = 'username=' + this.username;

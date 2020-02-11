@@ -46,10 +46,21 @@ namespace Krokodil.Services
 
         public Room GetRandomRoom()
         {
-            var room = _context.Rooms.Where(r =>
-                !r.IsPrivate &&
-                r.Users.Count() < 7 &&
-                (DateTime.Now - r.TimeStarted).TotalMinutes < 5).FirstOrDefault();
+            var rooms = _context.Rooms
+                .Where(r => !r.IsPrivate)
+                .Where(r => r.Users.Count() < 7)
+                .ToList()
+                .Where(r => (DateTime.Now - r.TimeStarted).TotalMinutes < 5.0)
+                .ToList();
+
+            if (rooms.Count == 0)
+                return null;
+
+            var rand = new Random(DateTime.Now.Millisecond);
+
+            var index = rand.Next(0, rooms.Count() - 1);
+
+            var room = rooms[index];
 
             return room;
         }
@@ -63,6 +74,32 @@ namespace Krokodil.Services
         public async Task DeleteRoomAsync(Room room)
         {
             _context.Remove(room);
+            _ = await SaveChagesAsync();
+        }
+
+        public async Task<User> ConnectUserAsync(User user, string roomId)
+        {
+            var room = _context.Rooms.FirstOrDefault(r => r.Id == roomId);
+            user.Score = 0;
+
+            var users = _context.Users.Where(u => u.RoomId == room.Id).ToList();
+
+            users ??= new List<User>();
+
+            users.Add(user);
+            room.Users = users;
+
+            _context.Update(room);
+            await SaveChagesAsync();
+
+            return user;
+        }
+
+        public async Task DisconnectUserAsync(string userId)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+            _context.Users.Remove(user);
+
             _ = await SaveChagesAsync();
         }
 
