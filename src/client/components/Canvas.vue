@@ -3,6 +3,7 @@
     <canvas id="canvas" width="650" height="650" @mouseleave="mouseLeave" @mouseup="mouseup" @mousemove="draw" @mousedown="onClick"></canvas>
     <div id="color-picker-container" @mousemove="colorChange" ></div>
     <range-slider class="slider" min="1" max="25" step="1" v-model="sliderValue"></range-slider>
+    <button class="clear" v-on:click="clear">Clear</button>
   </div>
 </template>
 
@@ -81,6 +82,9 @@ export default {
         x: p1.x + (p2.x - p1.x) / 2,
         y: p1.y + (p2.y - p1.y) / 2
       };
+    },
+    clear: function() {
+      this.ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
   },
   mounted: function() {
@@ -128,4 +132,23 @@ canvas {
   background-color:rgb(105, 105, 105);
 }
 
+.clear {
+  position: relative;
+  bottom: 70px;
+  background-color: rgb(92, 82, 150);
+  color: white;
+  border-radius: 1px;
+  border:rgb(92, 82, 150);
+  width: 70px;
+  height: 30px;
+}
+
+.clear:active {
+  outline:0;
+  background-color:rgb(65, 56, 116)
+}
+
+.clear:focus {
+  outline: 0;
+}
 </style>
