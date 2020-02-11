@@ -10,29 +10,10 @@ export default {
 
       connection.on("SendMessage", function(message) {
         messages.push(message)
-        
       });
 
-      let startedPromise = null
-      let tries = 0
-      function start () {
-        startedPromise = connection.start().catch(err => {
-          console.error('Failed to connect with hub', err)
-          if (tries < 5) {
-            return new Promise((resolve, reject) =>
-              setTimeout(() => {
-                start().then(resolve).catch(reject)
-                tries++
-                console.log('promise')
-              }, 5000))
-          }
-        })
-        tries = 0
-        return startedPromise
-      }
-      connection.onclose(() => start())
-
-      start()
+      connection.start()
+      connection.onclose(() => console.log('closed'))
 
       Vue.prototype.$messageHub = connection
       Vue.prototype.$messages = messages

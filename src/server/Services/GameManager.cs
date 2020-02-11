@@ -46,10 +46,21 @@ namespace Krokodil.Services
 
         public Room GetRandomRoom()
         {
-            var room = _context.Rooms.Where(r =>
-                !r.IsPrivate &&
-                r.Users.Count() < 7 &&
-                (DateTime.Now - r.TimeStarted).TotalMinutes < 5).FirstOrDefault();
+            var rooms = _context.Rooms
+                .Where(r => !r.IsPrivate)
+                .Where(r => r.Users.Count() < 7)
+                .ToList()
+                .Where(r => (DateTime.Now - r.TimeStarted).TotalMinutes < 5.0)
+                .ToList();
+
+            if (rooms.Count == 0)
+                return null;
+
+            var rand = new Random(DateTime.Now.Millisecond);
+
+            var index = rand.Next(0, rooms.Count() - 1);
+
+            var room = rooms[index];
 
             return room;
         }

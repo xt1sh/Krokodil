@@ -28,17 +28,28 @@
     <div>
       <chat />
     </div>
+    <button v-on:click="onRandomClick">Find random</button>
   </div>
 </template>
 
 <script>
 import Logo from '~/components/Logo.vue'
 import Chat from '~/components/Chat.vue'
+import axios from 'axios'
 
 export default {
   components: {
     Logo,
     Chat
+  },
+
+  methods: {
+    onRandomClick() {
+      this.$axios.get(`http://localhost:5000/GetRandomRoom?userId=zalup`)
+        .then(response => {
+          console.log(response)
+        })
+    }
   }
 }
 </script>

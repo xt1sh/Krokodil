@@ -21,8 +21,8 @@ namespace Krokodil.Controllers
             _gameManager = gameManager;
         }
 
-        [HttpGet("{userId}")]
-        public async Task<IActionResult> GetRandomRoom(string userId)
+        [HttpGet]
+        public async Task<IActionResult> GetRandomRoom([FromQuery] string userId)
         {
             var room = _gameManager.GetRandomRoom();
 
