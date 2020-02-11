@@ -77,6 +77,32 @@ namespace Krokodil.Services
             _ = await SaveChagesAsync();
         }
 
+        public async Task<User> ConnectUserAsync(User user, string roomId)
+        {
+            var room = _context.Rooms.FirstOrDefault(r => r.Id == roomId);
+            user.Score = 0;
+
+            var users = _context.Users.Where(u => u.RoomId == room.Id).ToList();
+
+            users ??= new List<User>();
+
+            users.Add(user);
+            room.Users = users;
+
+            _context.Update(room);
+            await SaveChagesAsync();
+
+            return user;
+        }
+
+        public async Task DisconnectUserAsync(string userId)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+            _context.Users.Remove(user);
+
+            _ = await SaveChagesAsync();
+        }
+
         private string GenerateId()
         {
             var random = new Random(DateTime.Now.Millisecond);

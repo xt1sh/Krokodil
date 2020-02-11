@@ -13,8 +13,12 @@ export default {
       });
 
       connection.start()
-      connection.onclose(() => console.log('closed'))
+      connection.onclose(() => {
+        connection.on("LeaveRoom", Vue.prototype.$roomId)
+        Vue.prototype.$axios.post(`http://localhost:5000/disconnect/zalup`)
+      })
 
+      Vue.prototype.$roomId = ''
       Vue.prototype.$messageHub = connection
       Vue.prototype.$messages = messages
   }
