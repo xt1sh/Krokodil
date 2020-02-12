@@ -1,17 +1,25 @@
 <template>
   <div class="container">
-    <button v-on:click="disconnect">disconnect</button>
-    <Chat />
+    <div class="game-container">
+      <Canvas />
+      <WordPicker />
+      <button v-on:click="disconnect">disconnect</button>
+      <Chat />
+    </div>
   </div>
 </template>
 
 <script>
 import axios from "@nuxtjs/axios";
 import Chat from "~/components/Chat.vue";
+import Canvas from '~/components/Canvas.vue';
+import WordPicker from '~/components/WordPicker.vue';
 
 export default {
   components: {
-    Chat
+    Chat,
+    Canvas,
+    WordPicker
   },
 
   mounted: async function() {
@@ -80,5 +88,14 @@ export default {
   justify-content: center;
   align-items: center;
   text-align: center;
+}
+
+.game-container {
+    width: 900px;
+    display: flex;
+}
+
+.picker {
+  /* display: none; */
 }
 </style>
