@@ -27,7 +27,9 @@ export default {
       username: ''
     }
   },
-
+  mounted() {
+    this.username = this.getCookie('username')
+  },
   methods: {
     onRandomClick: function() {
       this.onClick()
@@ -38,9 +40,17 @@ export default {
         })
     },
     onClick: function() {
-      document.cookie = 'id=' + Guid.raw();
+      if(!this.getCookie('id')) {
+        document.cookie = 'id=' + Guid.raw();
+      }
       document.cookie = 'username=' + this.username;
-    }
+    },
+    getCookie(name) {
+      let matches = document.cookie.match(new RegExp(
+        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+      ));
+      return matches ? decodeURIComponent(matches[1]) : undefined;
+}
   }
 }
 </script>
