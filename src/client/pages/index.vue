@@ -3,7 +3,7 @@
     <div class="name-input">
       <input type="text" v-model="username" id="username" placeholder="Username">
       <div class="buttons">      
-        <button class="game-button" v-on:click="onClick">Quick game</button>
+        <button class="game-button" v-on:click="onRandomClick">Quick game</button>
         <button class="game-button" v-on:click="onClick">Private game</button>
       </div>
     </div>
@@ -29,13 +29,15 @@ export default {
   },
 
   methods: {
-    onRandomClick() {
-      this.$axios.get(`http://localhost:5000/GetRandomRoom?userId=zalup`)
+    onRandomClick: function() {
+      this.onClick()
+      this.$axios.get(`http://localhost:5000/GetRandomRoom`)
         .then(response => {
           console.log(response)
+          this.$router.push({ path: 'room', query: { id: response.data }})
         })
     },
-    onClick: function(e) {
+    onClick: function() {
       document.cookie = 'id=' + Guid.raw();
       document.cookie = 'username=' + this.username;
     }

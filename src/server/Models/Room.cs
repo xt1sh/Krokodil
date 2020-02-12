@@ -10,7 +10,6 @@ namespace Krokodil.Models
         public string Id { get; set; }
         public virtual IEnumerable<User> Users { get; set; }
         public bool IsPrivate { get; set; }
-        public string Word { get; set; }
         public int Round { get; set; }
         public DateTime TimeStarted { get; set; }
     }

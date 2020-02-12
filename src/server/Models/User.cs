@@ -9,6 +9,7 @@ namespace Krokodil.Models
     {
         public string Id { get; set; }
         public string Name { get; set; }
+        public string SingalrId { get; set; }
         public int Score { get; set; }
         public string RoomId { get; set; }
         public Room Room { get; set; }
