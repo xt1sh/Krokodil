@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="name-input">
-      <input type="text" v-model="username" id="username" placeholder="Username">
+      <input type="text" autocomplete="off" v-model="username" id="username" placeholder="Username">
       <div class="buttons">      
         <button class="game-button" v-on:click="onRandomClick">Quick game</button>
         <button class="game-button" v-on:click="onClick">Private game</button>

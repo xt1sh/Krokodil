@@ -95,9 +95,17 @@ namespace Krokodil.Services
             return user;
         }
 
-        public async Task DisconnectUserAsync(string userId)
+        public async Task DisconnectUserByIdAsync(string userId)
         {
             var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+            _context.Users.Remove(user);
+
+            _ = await SaveChagesAsync();
+        }
+
+        public async Task DisconnectUserBySignalrAsync(string signalrId)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.SingalrId == signalrId);
             _context.Users.Remove(user);
 
             _ = await SaveChagesAsync();

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Krokodil.Profiles;
 using Krokodil.Services;
-using Microsoft.AspNet.SignalR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
