@@ -96,6 +96,6 @@ export default {
 }
 
 .picker {
-  /* display: none; */
+  display: none;
 }
 </style>

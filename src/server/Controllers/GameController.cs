@@ -57,7 +57,7 @@ namespace Krokodil.Controllers
         [HttpPost("{userId}")]
         public async Task<IActionResult> Disconnect(string userId)
         {
-            await _gameManager.DisconnectUserAsync(userId);
+            await _gameManager.DisconnectUserByIdAsync(userId);
 
             return Ok();
         }

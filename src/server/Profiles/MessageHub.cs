@@ -35,5 +35,21 @@ namespace Krokodil.Profiles
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, roomName);
             await Clients.Group(roomName).SendAsync("Send", $"{Context.ConnectionId} has left the group {roomName}.");
         }
+
+        public async Task Draw(object data, string roomName)
+        {
+            await Clients.Groups(roomName).SendAsync("ReceiveDraw", data);
+        }
+
+        public async Task Clear(string roomName)
+        {
+            await Clients.Groups(roomName).SendAsync("ClearData");
+        }
+
+        public override async Task OnDisconnectedAsync(Exception exception)
+        {
+            await _gameManager.DisconnectUserBySignalrAsync(Context.ConnectionId);
+            await base.OnDisconnectedAsync(exception);
+        }
     }
 }
