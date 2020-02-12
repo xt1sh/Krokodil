@@ -2,16 +2,19 @@
   <div class="container">
     <div class="game-container">
       <Canvas />
+      <WordPicker />
     </div>
   </div>
 </template>
 
 <script>
-import Canvas from '~/components/Canvas.vue'
+import Canvas from '~/components/Canvas.vue';
+import WordPicker from '~/components/WordPicker.vue';
 
 export default {
     components: {
-        Canvas
+        Canvas,
+        WordPicker
     }
 }
 </script>
@@ -22,16 +25,16 @@ export default {
   min-height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; 
   text-align: center;
 }
 
 .game-container {
     width: 900px;
+    display: flex;
 }
 
-.drawing {
-  width: 650px;
-  height: 650px;
+.picker {
+  display: none;
 }
 </style>
