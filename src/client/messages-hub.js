@@ -1,25 +1,39 @@
 import { HubConnectionBuilder, LogLevel } from '@aspnet/signalr'
 
 export default {
-  install (Vue) {
+  install(Vue) {
     const connection = new HubConnectionBuilder()
       .withUrl('http://localhost:5000/messages')
       .build()
 
     let messages = []
 
-      connection.on("SendMessage", function(message) {
-        messages.push(message)
-      });
+    connection.on("ReceiveMessage", function (userId, userName, message) {
+      console.log(message)
+      messages.push({ userId, userName, message })
+    });
 
-      connection.start()
-      connection.onclose(() => {
-        connection.on("LeaveRoom", Vue.prototype.$roomId)
-        Vue.prototype.$axios.post(`http://localhost:5000/disconnect/zalup`)
-      })
+    connection.start()
+    connection.onclose(() => { })
 
-      Vue.prototype.$roomId = ''
-      Vue.prototype.$messageHub = connection
-      Vue.prototype.$messages = messages
+    var value = "; " + document.cookie;
+    var parts = value.split("; " + 'id' + "=");
+    if (parts.length == 2)
+      var userId = parts
+        .pop()
+        .split(";")
+        .shift();
+    var parts = value.split("; " + 'username' + "=");
+    if (parts.length == 2)
+      var userName = parts
+        .pop()
+        .split(";")
+        .shift();
+
+    Vue.prototype.$roomId = ''
+    Vue.prototype.$messageHub = connection
+    Vue.prototype.$messages = messages
+    Vue.prototype.$userName = userName
+    Vue.prototype.$userId = userId
   }
 }

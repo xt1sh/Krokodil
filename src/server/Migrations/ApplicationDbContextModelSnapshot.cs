@@ -30,9 +30,6 @@ namespace Krokodil.Migrations
                     b.Property<DateTime>("TimeStarted")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Word")
-                        .HasColumnType("TEXT");
-
                     b.HasKey("Id");
 
                     b.ToTable("Rooms");
@@ -52,6 +49,9 @@ namespace Krokodil.Migrations
                     b.Property<int>("Score")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("SingalrId")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
                     b.HasIndex("RoomId");
@@ -61,7 +61,7 @@ namespace Krokodil.Migrations
 
             modelBuilder.Entity("Krokodil.Models.User", b =>
                 {
-                    b.HasOne("Krokodil.Models.Room", null)
+                    b.HasOne("Krokodil.Models.Room", "Room")
                         .WithMany("Users")
                         .HasForeignKey("RoomId");
                 });

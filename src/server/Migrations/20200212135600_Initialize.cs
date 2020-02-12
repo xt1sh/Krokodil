@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Krokodil.Migrations
 {
@@ -12,8 +13,8 @@ namespace Krokodil.Migrations
                 {
                     Id = table.Column<string>(nullable: false),
                     IsPrivate = table.Column<bool>(nullable: false),
-                    Word = table.Column<string>(nullable: true),
-                    Round = table.Column<int>(nullable: false)
+                    Round = table.Column<int>(nullable: false),
+                    TimeStarted = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -26,6 +27,7 @@ namespace Krokodil.Migrations
                 {
                     Id = table.Column<string>(nullable: false),
                     Name = table.Column<string>(nullable: true),
+                    SingalrId = table.Column<string>(nullable: true),
                     Score = table.Column<int>(nullable: false),
                     RoomId = table.Column<string>(nullable: true)
                 },

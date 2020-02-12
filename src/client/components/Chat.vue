@@ -1,12 +1,6 @@
 <template>
   <div>
     <div>
-      <input v-model="room" placeholder="room name" />
-    </div>
-    <div>
-      <button v-on:click="onConnect">Connect</button>
-    </div>
-    <div>
       <input v-model="message" placeholder="message" />
     </div>
     <div>
@@ -14,12 +8,9 @@
     </div>
     <div>
       <ul>
-				<li v-for="mes in messages" v-bind:key="mes">{{ mes }}</li>
+				<li v-for="mes in messages" v-bind:key="mes.message">{{ mes.userName }}: {{ mes.message }}</li>
 			</ul>
     </div>
-		<div>
-			<button v-on:click="onDisconnect">Disconnect</button>
-		</div>
   </div>
 </template>
 
@@ -29,21 +20,15 @@ var Vue = require("vue");
 export default {
   data: function() {
     return {
-      room: "",
+      room: this.$route.query.id,
 			message: "",
 			messages: this.$messages
     };
   },
 
   methods: {
-    onConnect: function() {
-      this.$messageHub.invoke("JoinRoom", this.room);
-    },
     onClick: function() {
-      this.$messageHub.invoke("SendRoomMessage", this.room, this.message);
-		},
-		onDisconnect: function() {
-			this.$messageHub.invoke("LeaveRoom", this.room)
+      this.$messageHub.invoke("SendRoomMessage", this.room, this.$userId, this.$userName, this.message);
 		}
   }
 };
