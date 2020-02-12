@@ -115,6 +115,11 @@ canvas {
   float: left;
 }
 
+.drawing {
+  width: 650px;
+  height: 650px;
+}
+
 #color-picker-container {
   position: fixed;
   bottom: 150px;
