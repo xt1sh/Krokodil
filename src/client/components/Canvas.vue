@@ -140,10 +140,10 @@ export default {
     },
     sendDraw: function(isPoint) {
       if (this.isDrawer) {
-        this.$messageHub.invoke('Draw', { 
-          x: this.mousex, 
-          y: this.mousey, 
-          stroke: this.sliderValue, 
+        this.$messageHub.invoke('Draw', {
+          x: this.mousex,
+          y: this.mousey,
+          stroke: this.sliderValue,
           color: this.colorPicker.color.hexString,
           mousedown: this.mousedown,
           points: this.points,
