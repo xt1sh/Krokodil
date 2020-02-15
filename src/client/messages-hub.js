@@ -9,9 +9,12 @@ export default {
     let messages = []
 
     connection.on("ReceiveMessage", function (userId, userName, message) {
-      console.log(message)
       messages.push({ userId, userName, message })
     });
+
+    connection.on("ReceiveSystemMessage", function(message) {
+      messages.push({ message })
+    })
 
     connection.start()
     connection.onclose(() => { })

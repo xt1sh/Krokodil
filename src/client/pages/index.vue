@@ -2,7 +2,7 @@
   <div class="container">
     <div class="name-input">
       <input type="text" autocomplete="off" v-model="username" id="username" placeholder="Username">
-      <div class="buttons">      
+      <div class="buttons">
         <button class="game-button" v-on:click="onRandomClick">Quick game</button>
         <button class="game-button" v-on:click="onClick">Private game</button>
       </div>
@@ -15,6 +15,8 @@ import Logo from '~/components/Logo.vue'
 import Chat from '~/components/Chat.vue'
 import axios from 'axios'
 import Guid from 'guid';
+
+var Vue = require("vue");
 
 export default {
   components: {
@@ -35,22 +37,24 @@ export default {
       this.onClick()
       this.$axios.get(`http://localhost:5000/GetRandomRoom`)
         .then(response => {
-          console.log(response)
           this.$router.push({ path: 'room', query: { id: response.data }})
         })
     },
     onClick: function() {
       if(!this.getCookie('id')) {
-        document.cookie = 'id=' + Guid.raw();
+        let id = Guid.raw()
+        document.cookie = 'id=' + id
+        this.$userId = id
       }
       document.cookie = 'username=' + this.username;
+      this.$userName = this.username
     },
     getCookie(name) {
       let matches = document.cookie.match(new RegExp(
         "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
       ));
       return matches ? decodeURIComponent(matches[1]) : undefined;
-}
+    }
   }
 }
 </script>
@@ -82,7 +86,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   width: 220px;
-  
+
 }
 
 .game-button {

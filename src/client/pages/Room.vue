@@ -3,7 +3,6 @@
     <div class="game-container">
       <Canvas />
       <WordPicker />
-      <button v-on:click="disconnect">disconnect</button>
       <Chat />
     </div>
   </div>
@@ -23,19 +22,22 @@ export default {
   },
 
   mounted: async function() {
-
     let tries = 0;
+    this.userName = this.getCookie('username')
+    this.userId = this.getCookie('id')
+    if(!this.userName || !this.userId) {
+      this.deleteAllCookies()
+      window.location = '/'
+    }
     while (!isConnected && tries < 20) {
       tries++;
-      console.log(tries)
       var isConnected = this.$messageHub.connection.connectionState === 1;
       if (isConnected) {
-        console.log(this.roomId, this.getCookie("id"), this.getCookie("username"))
         this.$messageHub.invoke(
           "JoinRoom",
           this.roomId,
-          this.getCookie("id"),
-          this.getCookie("username")
+          this.userId,
+          this.userName
         );
         this.$roomId = this.roomId;
       }
@@ -51,7 +53,6 @@ export default {
   methods: {
     disconnect: function() {
       let userId = this.getCookie("id");
-      console.log(userId);
       this.$messageHub.invoke("LeaveRoom", this.roomId);
       this.$axios.post(`http://localhost:5000/Disconnect/${userId}`);
     },
@@ -63,7 +64,16 @@ export default {
           .pop()
           .split(";")
           .shift();
+    },
+    deleteAllCookies: function() {
+    var cookies = document.cookie.split(";");
+    for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i];
+        var eqPos = cookie.indexOf("=");
+        var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
     }
+}
   },
 
   beforeDestroy: function() {
@@ -91,8 +101,7 @@ export default {
 }
 
 .game-container {
-    width: 900px;
-    display: flex;
+  display: flex;
 }
 
 .picker {
