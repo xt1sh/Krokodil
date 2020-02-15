@@ -8,6 +8,7 @@ namespace Krokodil.Services
         Task DeleteRoomAsync(Room room);
         Task DeleteRoomAsync(string id);
         Room GetRandomRoom();
+        User GetUserBySignalR(string id);
         Room GetRoom(string id);
         Task<Room> InitializeRoomAsync(bool isPrivate);
         Task DisconnectUserByIdAsync(string userId);

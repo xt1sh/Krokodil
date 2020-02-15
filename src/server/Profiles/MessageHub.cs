@@ -24,7 +24,7 @@ namespace Krokodil.Profiles
         public async Task JoinRoom(string roomName, string userId, string userName)
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, roomName);
-            await Clients.Group(roomName).SendAsync("Send", $"{Context.ConnectionId} has joined the group {roomName}.");
+            await Clients.Group(roomName).SendAsync("ReceiveRoomSystemMessage", $"{userName} has joined");
             await _gameManager.ConnectUserAsync(
                 new Models.User { Id = userId, Name = userName, SingalrId = Context.ConnectionId },
                 roomName);
@@ -33,7 +33,7 @@ namespace Krokodil.Profiles
         public async Task LeaveRoom(string roomName)
         {
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, roomName);
-            await Clients.Group(roomName).SendAsync("Send", $"{Context.ConnectionId} has left the group {roomName}.");
+            await Clients.Group(roomName).SendAsync("ReceiveRoomSystemMessage", $"{Context.ConnectionId} has left the group");
         }
 
         public async Task Draw(object data, string roomName)
@@ -48,6 +48,8 @@ namespace Krokodil.Profiles
 
         public override async Task OnDisconnectedAsync(Exception exception)
         {
+            var user = _gameManager.GetUserBySignalR(Context.ConnectionId);
+            await Clients.Group(user.RoomId).SendAsync("ReceiveRoomSystemMessage", $"{user.Name} has left the group");
             await _gameManager.DisconnectUserBySignalrAsync(Context.ConnectionId);
             await base.OnDisconnectedAsync(exception);
         }

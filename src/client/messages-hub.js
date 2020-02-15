@@ -12,7 +12,7 @@ export default {
       messages.push({ userId, userName, message })
     });
 
-    connection.on("ReceiveSystemMessage", function(message) {
+    connection.on("ReceiveRoomSystemMessage", function(message) {
       messages.push({ message })
     })
 

@@ -3,8 +3,13 @@
     <div class="chat bordered">
       <div class="messages-wrapper">
         <ul>
-          <li v-for="mes in finalMessages" v-bind:key="mes">
-            {{mes}}
+          <li v-for="mes in finalMessages" v-bind:key="mes.message">
+            <div class="system-message-wrapper" v-if="mes.isSystem">
+              {{mes.message}}
+            </div>
+            <div v-else>
+              {{mes.message}}
+            </div>
           </li>
         </ul>
       </div>
@@ -65,8 +70,13 @@ export default {
 
   computed: {
     finalMessages: function() {
-      return this.messages.map((element) =>
-        `${element.userName}: ${element.message}`
+      return this.messages.map((element) => {
+        if (element.userName) {
+          return { message: `${element.userName}: ${element.message}`, isSystem: false }
+        } else {
+          return { message: element.message, isSystem: true }
+        }
+      }
       )
     }
   }
@@ -127,6 +137,12 @@ export default {
     position: absolute;
     bottom: 0;
     width: 325px;
+  }
+
+  .system-message-wrapper {
+    width: 100%;
+    text-align: center;
+    color: #969696;
   }
 
   button[type=submit] {

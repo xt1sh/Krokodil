@@ -41,6 +41,9 @@ namespace Krokodil.Services
             return null;
         }
 
+        public User GetUserBySignalR(string id) =>
+            _context.Users.FirstOrDefault(u => u.SingalrId == id);
+
         public Room GetRoom(string id) =>
             _context.Rooms.FirstOrDefault(r => r.Id == id);
 
