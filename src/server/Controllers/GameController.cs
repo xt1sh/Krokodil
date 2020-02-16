@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Krokodil.Models;
 using Krokodil.Profiles;
 using Krokodil.Services;
+using Krokodil.Services.WordPicker;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -17,12 +18,22 @@ namespace Krokodil.Controllers
     {
         private readonly IGameManager _gameManager;
         private readonly ApplicationDbContext _context;
+        private readonly IWordPicker _wp;
 
         public GameController(IGameManager gameManager,
-            ApplicationDbContext context)
+            ApplicationDbContext context,
+            IWordPicker wp)
         {
             _gameManager = gameManager;
             _context = context;
+            _wp = wp;
+        }
+
+        [HttpGet]
+        public IActionResult GetRandomWords()
+        {
+            return Ok(_wp.GetRandomWords(3));
+
         }
 
         [HttpGet]

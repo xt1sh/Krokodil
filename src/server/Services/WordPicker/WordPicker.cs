@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -10,11 +11,30 @@ namespace Krokodil.Services.WordPicker
 {
     public class WordPicker : IWordPicker
     {
-        private IMemoryCache _cache;
+        private readonly IMemoryCache _cache;
+        private string WordsFilePath { get; }
 
-        public WordPicker(IMemoryCache memoryCache)
+        public WordPicker(IMemoryCache memoryCache,
+            IWebHostEnvironment env)
         {
             _cache = memoryCache;
+            WordsFilePath = Path.Combine(env.ContentRootPath, "words.csv");
+        }
+        
+        public List<string> GetRandomWords(int count)
+        {
+            var words = new List<string>();
+            using (var reader = new StreamReader(WordsFilePath))
+            {
+                while (!reader.EndOfStream)
+                {
+                    var line = reader.ReadLine();
+                    var values = line.Split(';').ToList<string>();
+                    words.AddRange(values);
+                }
+            }
+
+            return GetRandomSample(words, count);
         }
 
         public List<string> GetRandomSample(List<string> words, int count)
@@ -46,5 +66,6 @@ namespace Krokodil.Services.WordPicker
         {
             _cache.Remove(key);
         }
+
     }
 }

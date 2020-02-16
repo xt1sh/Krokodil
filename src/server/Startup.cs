@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Krokodil.Profiles;
 using Krokodil.Services;
+using Krokodil.Services.WordPicker;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -33,7 +34,9 @@ namespace Krokodil
             });
 
             services.AddTransient<IGameManager, GameManager>();
+            services.AddSingleton<IWordPicker, WordPicker>();
 
+            services.AddMemoryCache();
             services.AddSignalR();
 
             services.AddControllers();
