@@ -10,6 +10,7 @@ namespace Krokodil.Services
     public class GameManager : IGameManager
     {
         private readonly ApplicationDbContext _context;
+        public event EventHandler<StartGameEventArgs> StartGame;
 
         public GameManager(ApplicationDbContext context)
         {
@@ -50,14 +51,12 @@ namespace Krokodil.Services
         public Room GetRandomRoom()
         {
             var rooms = _context.Rooms
-                .Where(r => !r.IsPrivate)
-                .Where(r => r.Users.Count() < 7)
-                .ToList()
-                .Where(r => (DateTime.Now - r.TimeStarted).TotalMinutes < 5.0)
-                .ToList();
+               .Where(r => !r.IsPrivate).ToList();
 
             if (rooms.Count == 0)
                 return null;
+
+            
 
             var rand = new Random(DateTime.Now.Millisecond);
 
@@ -88,7 +87,19 @@ namespace Krokodil.Services
             var users = _context.Users.Where(u => u.RoomId == room.Id).ToList();
 
             users ??= new List<User>();
+            if (users.Count == 1)
+            {
+                users.Add(user);
+                room.Users = users;
+                _context.Update(room);
+                await SaveChagesAsync();
 
+                StartGameEventArgs args = new StartGameEventArgs();
+                args.roomId = roomId;
+                OnStartGame(args);
+
+                return user;
+            }
             users.Add(user);
             room.Users = users;
 
@@ -124,5 +135,13 @@ namespace Krokodil.Services
 
         private async Task<bool> SaveChagesAsync() =>
             await _context.SaveChangesAsync() > 0;
+
+        protected virtual void OnStartGame(StartGameEventArgs e)
+        {
+            StartGame?.Invoke(this, e);
+        }
+
     }
+
+    
 }

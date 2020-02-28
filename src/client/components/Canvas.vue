@@ -17,7 +17,6 @@
     <div id="color-picker-container" @mousemove="colorChange"></div>
     <range-slider class="slider" min="1" max="25" step="1" v-model="sliderValue"></range-slider>
     <button class="clear" v-on:click="invokeClear">Clear</button>
-    <button v-on:click="drawerChange">draw</button>
   </div>
 </template>
 
@@ -25,6 +24,7 @@
 import iro from "@jaames/iro";
 import RangeSlider from "vue-range-slider";
 import "vue-range-slider/dist/vue-range-slider.css";
+import { getCookie } from 'assets/cookie.js';
 
 export default {
   data: function() {
@@ -54,21 +54,17 @@ export default {
       color: "#f00"
     });
     this.slider = document.getElementsByClassName("range-slider-fill")[0];
-    console.log(this.slider)
     this.slider.style.backgroundColor = "#f00";
 
     this.$messageHub.on('ReceiveDraw', this.onDataReceive)
     this.$messageHub.on('ClearData', this.clear)
+    this.$messageHub.on('StartRound', this.startRound)
   },
 
   components: {
     RangeSlider
   },
   methods: {
-    drawerChange: function() {
-      this.isDrawer = !this.isDrawer
-      console.log(this.isDrawer)
-    },
     onDataReceive: function(data) {
       if (!this.isDrawer) {
         this.mousex = data.x;
@@ -171,9 +167,18 @@ export default {
     clear: function() {
       this.ctx.clearRect(0, 0, canvas.width, canvas.height);
     },
+    startRound: function(userId, words) {
+      if (userId == getCookie('id')) {
+        this.isDrawer = true;
+      }
+      else {
+        this.isDrawer = false;
+      }
+    },
     invokeClear: function() {
       this.$messageHub.invoke('Clear', this.$route.query.id)
-    }
+    },
+    
   }
 };
 </script>

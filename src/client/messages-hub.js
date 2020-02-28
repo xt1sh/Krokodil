@@ -3,7 +3,7 @@ import { HubConnectionBuilder, LogLevel } from '@aspnet/signalr'
 export default {
   install(Vue) {
     const connection = new HubConnectionBuilder()
-      .withUrl('http://localhost:5000/messages')
+      .withUrl('http://localhost:30970/messages')
       .build()
 
     let messages = []

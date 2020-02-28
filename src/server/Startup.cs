@@ -4,10 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Krokodil.Profiles;
 using Krokodil.Services;
+using Krokodil.Services.PlayerPicker;
+using Krokodil.Services.TimerManager;
 using Krokodil.Services.WordPicker;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -33,9 +36,10 @@ namespace Krokodil
                 });
             });
 
+            services.AddTransient<IPlayerPicker, PlayerPicker>();
             services.AddTransient<IGameManager, GameManager>();
             services.AddSingleton<IWordPicker, WordPicker>();
-
+            services.AddSingleton<ITimerManager, TimerManager>();
             services.AddMemoryCache();
             services.AddSignalR();
 

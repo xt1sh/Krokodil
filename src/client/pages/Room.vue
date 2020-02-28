@@ -104,7 +104,4 @@ export default {
   display: flex;
 }
 
-.picker {
-  display: none;
-}
 </style>

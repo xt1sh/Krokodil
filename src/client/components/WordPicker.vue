@@ -1,37 +1,50 @@
 <template>
-  <div class="picker">
-    <button class="word" v-for="word in wordsToChoose" v-bind:key="word">{{ word }}</button>
-    <button class="skip">Skip</button>
+  <div class="picker" >
+    <button class="word" v-for="word in wordsToChoose" v-bind:key="word" v-on:click="pickWord">{{ word }}</button>
+    <button class="skip" v-on:click="skip">Skip</button>
   </div>
 </template>
 <script>
-import { words } from '~/assets/words.js'
+import { getCookie } from '~/assets/cookie.js'
 export default {
-  data: {
+  data: function() {
+    return {
+      isDrawer: false,
+      pickedWord: null,
       wordsToChoose: []
-  },
-  beforeCreate() {
-    var n = 3;
-    this.wordsToChoose = new Array(n)
-    var len = words.length,
-    taken = new Array(len);
-    while (n--) {
-      var x = Math.floor(Math.random() * len);
-      this.wordsToChoose[n] = words[x in taken ? taken[x] : x];
-      taken[x] = --len in taken ? taken[len] : len;
     }
   },
-  methods: {
+  beforeCreate: function() {
 
+  },
+  mounted: function() {
+      this.$messageHub.on('StartRound', this.startRound)
+  },
+  methods: {
+    startRound(userId, words) {
+      if (userId == getCookie('id')) {
+        this.isDrawer = true;     
+        this.wordsToChoose = words;
+        document.getElementsByClassName('picker')[0].style.display = 'flex';
+      }
+    },
+    pickWord(e) {
+      document.getElementsByClassName('picker')[0].style.display = 'none';
+      this.$messageHub.invoke('Play', e.target.textContent, this.$route.query.id);
+    },
+    skip(e) {
+      document.getElementsByClassName('picker')[0].style.display = 'none';
+      this.$messageHub.invoke('StartRound', this.$route.query.id)
+    }
   }
 }
 </script>
 <style>
 .picker {
+  display: none;
   width: 650px;
   height: 650px;
   position: absolute;
-  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;

@@ -1,10 +1,13 @@
 ﻿using Krokodil.Models;
+using System;
 using System.Threading.Tasks;
 
 namespace Krokodil.Services
 {
     public interface IGameManager
     {
+        public event EventHandler<StartGameEventArgs> StartGame;
+
         Task DeleteRoomAsync(Room room);
         Task DeleteRoomAsync(string id);
         Room GetRandomRoom();

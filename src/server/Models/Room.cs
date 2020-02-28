@@ -8,7 +8,7 @@ namespace Krokodil.Models
     public class Room
     {
         public string Id { get; set; }
-        public virtual IEnumerable<User> Users { get; set; }
+        public IEnumerable<User> Users { get; set; }
         public bool IsPrivate { get; set; }
         public int Round { get; set; }
         public DateTime TimeStarted { get; set; }

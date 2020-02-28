@@ -35,7 +35,7 @@ export default {
   methods: {
     onRandomClick: function() {
       this.onClick()
-      this.$axios.get(`http://localhost:5000/GetRandomRoom`)
+      this.$axios.get(`http://localhost:30970/GetRandomRoom`)
         .then(response => {
           this.$router.push({ path: 'room', query: { id: response.data }})
         })
