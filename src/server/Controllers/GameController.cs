@@ -49,6 +49,15 @@ namespace Krokodil.Controllers
             return Ok(room.Id);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetPrivateRoom() 
+        {
+            var room = await _gameManager.InitializeRoomAsync(true);
+            if (room == null)
+                return BadRequest();
+            return Ok(room.Id);
+        }
+
         [HttpPost("{roomId}")]
         public async Task<IActionResult> ConnectToRoom(User user, string roomId)
         {

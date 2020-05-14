@@ -4,7 +4,7 @@
       <input type="text" autocomplete="off" v-model="username" id="username" placeholder="Username">
       <div class="buttons">
         <button class="game-button" v-on:click="onRandomClick">Quick game</button>
-        <button class="game-button" v-on:click="onClick">Private game</button>
+        <button class="game-button" v-on:click="onPrivateClick">Private game</button>
       </div>
     </div>
   </div>
@@ -35,7 +35,14 @@ export default {
   methods: {
     onRandomClick: function() {
       this.onClick()
-      this.$axios.get(`http://localhost:30970/GetRandomRoom`)
+      this.$axios.get(`http://localhost:5000/GetRandomRoom`)
+        .then(response => {
+          this.$router.push({ path: 'room', query: { id: response.data }})
+        })
+    },
+    onPrivateClick: function() {
+      this.onClick()
+      this.$axios.get(`http://localhost:5000/GetPrivateRoom`)
         .then(response => {
           this.$router.push({ path: 'room', query: { id: response.data }})
         })
