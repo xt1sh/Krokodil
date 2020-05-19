@@ -8,6 +8,6 @@ namespace Krokodil.Services.PlayerPicker
 	public interface IPlayerPicker
 	{
 		string SetPlayer(string roomId);
-
+		string GetDrawer(string roomId);
 	}
 }

@@ -16,7 +16,7 @@
     ></canvas>
     <div id="color-picker-container" @mousemove="colorChange"></div>
     <range-slider class="slider" min="1" max="25" step="1" v-model="sliderValue"></range-slider>
-    <button class="clear" v-on:click="invokeClear">Clear</button>
+    <button v-if="isDrawer" class="clear" v-on:click="invokeClear">Clear</button>
   </div>
 </template>
 
@@ -168,6 +168,8 @@ export default {
       this.ctx.clearRect(0, 0, canvas.width, canvas.height);
     },
     startRound: function(userId, words) {
+      this.mousedown = false;
+      this.invokeClear();
       if (userId == getCookie('id')) {
         this.isDrawer = true;
       }
@@ -176,6 +178,7 @@ export default {
       }
     },
     invokeClear: function() {
+      this.points = [];
       this.$messageHub.invoke('Clear', this.$route.query.id)
     },
     

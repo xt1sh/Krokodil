@@ -30,12 +30,11 @@ namespace Krokodil.Profiles
 
         public async Task SendRoomMessage(string roomName, string userId, string userName, string message)
         {
-            if(message.ToUpper() == _wordPicker.GetCachedWord(roomName).ToUpper())
+            await Clients.Group(roomName).SendAsync("ReceiveMessage", userId, userName, message);
+            if (message.ToUpper() == _wordPicker.GetCachedWord(roomName).ToUpper() && userId != _playerPicker.GetDrawer(roomName))
             {
-                await Clients.Group(roomName).SendAsync("ReceiveMessage", userId, userName, message);
                 await StartRound(roomName);
             }
-            await Clients.Group(roomName).SendAsync("ReceiveMessage", userId, userName, message);
         }
 
         public async Task JoinRoom(string roomName, string userId, string userName)
