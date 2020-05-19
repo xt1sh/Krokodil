@@ -22,6 +22,7 @@ export default {
   },
   methods: {
     startRound(userId, words) {
+      document.getElementsByClassName('picker')[0].style.display = 'none';
       if (userId == getCookie('id')) {
         this.isDrawer = true;     
         this.wordsToChoose = words;
