@@ -20,7 +20,6 @@ namespace Krokodil.Services.PlayerPicker
 			_cache = memoryCache;
 		}
 
-
 		public string SetPlayer(string roomId)
 		{
 			using (var context = new ApplicationDbContext(new DbContextOptionsBuilder<ApplicationDbContext>().UseSqlite("Data Source=db.db;").Options))
@@ -43,6 +42,15 @@ namespace Krokodil.Services.PlayerPicker
 				this.cachePlayerId(roomId, nextPlayer.Id, 3);
 				return nextPlayer.Id;
 			}
+		}
+
+		public string GetDrawer(string roomId)
+		{
+			string key = string.Concat(roomId, "U");
+			if (!_cache.TryGetValue(key, out string user))
+				return null;
+
+			return user;
 		}
 
 		private void cachePlayerId(string key, string userId, double minutes)
